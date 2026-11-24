@@ -1,0 +1,8 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Backup and temp files
+*.backup.html
+*.tmp
+url.txt

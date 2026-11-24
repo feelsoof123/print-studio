@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://feelsoof123.github.io/print-studio/sitemap.xml

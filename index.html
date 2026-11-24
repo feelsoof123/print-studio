@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProPrint Studio Pro | 300 DPI Precision Print & Passport Suite</title>
+    
+    <!-- Favicon & Search Bar / Tab Icon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="og-image.png">
+    <link rel="image_src" href="og-image.png">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="ProPrint Studio Pro | 300 DPI Precision Print & Passport Suite">
+    <meta name="description" content="Professional 300 DPI Photo Resizer, Passport Sheet Creator & High-Precision Print Generator by Shaiekh Fielsouf Ansari">
+    <meta name="author" content="Shaiekh Fielsouf Ansari">
+    <meta name="theme-color" content="#080c14">
+
+    <!-- Open Graph / WhatsApp / Facebook Link Preview (When sharing link) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://feelsoof123.github.io/print-studio/">
+    <meta property="og:title" content="ProPrint Studio Pro | 300 DPI Precision Print & Passport Suite">
+    <meta property="og:description" content="Professional 300 DPI Photo Resizer, Passport Sheet Creator & High-Precision Print Generator by Shaiekh Fielsouf Ansari">
+    <meta property="og:image" content="https://feelsoof123.github.io/print-studio/og-image.png">
+    <meta property="og:image:secure_url" content="https://feelsoof123.github.io/print-studio/og-image.png">
+    <meta property="og:image:type" content="image/png">
+
+    <!-- Twitter Card Link Preview -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://feelsoof123.github.io/print-studio/">
+    <meta name="twitter:title" content="ProPrint Studio Pro | 300 DPI Precision Print & Passport Suite">
+    <meta name="twitter:description" content="Professional 300 DPI Photo Resizer, Passport Sheet Creator & High-Precision Print Generator by Shaiekh Fielsouf Ansari">
+    <meta name="twitter:image" content="https://feelsoof123.github.io/print-studio/og-image.png">
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Suppress Tailwind CDN developer notice in browser console -->
+    <script>
+        (function() {
+            const _origWarn = console.warn;
+            console.warn = function(...args) {
+                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+                    return;
+                }
+                _origWarn.apply(console, args);
+            };
+        })();
+    </script>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jsPDF Library for exact physical dimensions PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- FontAwesome 6.5.1 Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        },
+                        studio: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            700: '#334155',
+                            800: '#1e293b',
+                            850: '#162032',
+                            900: '#0f172a',
+                            950: '#080c14',
+                        }
+                    },
+                    boxShadow: {
+                        'glow-indigo': '0 0 25px -5px rgba(99, 102, 241, 0.4)',
+                        'glow-emerald': '0 0 20px -5px rgba(16, 185, 129, 0.4)',
+                        'sheet-light': '0 25px 60px -15px rgba(0, 0, 0, 0.18), 0 0 1px 1px rgba(0,0,0,0.05)',
+                        'sheet-dark': '0 25px 60px -15px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(255,255,255,0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Modern Mesh Checkerboard for Canvas Workspace */
+        .workspace-pattern {
+            background-color: #0c121e;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+                linear-gradient(45deg, #111a2c 25%, transparent 25%), 
+                linear-gradient(-45deg, #111a2c 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #111a2c 75%), 
+                linear-gradient(-45deg, transparent 75%, #111a2c 75%);
+            background-size: 100% 100%, 28px 28px, 28px 28px, 28px 28px, 28px 28px;
+            background-position: 0 0, 0 0, 0 14px, 14px -14px, -14px 0px;
+        }
+
+        html:not(.dark) .workspace-pattern {
+            background-color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 60%),
+                linear-gradient(45deg, #cbd5e1 25%, transparent 25%), 
+                linear-gradient(-45deg, #cbd5e1 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #cbd5e1 75%), 
+                linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+            background-size: 100% 100%, 28px 28px, 28px 28px, 28px 28px, 28px 28px;
+            background-position: 0 0, 0 0, 0 14px, 14px -14px, -14px 0px;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        html:not(.dark) .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+        }
+        html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Smooth Sliders */
+        input[type="range"] {
+            -webkit-appearance: none;
+            background: #1e293b;
+            border-radius: 6px;
+            height: 5px;
+        }
+        html:not(.dark) input[type="range"] {
+            background: #e2e8f0;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #6366f1;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            transition: transform 0.15s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Tooltip Animations */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .pulse-badge {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        /* Direct Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                visibility: hidden !important;
+            }
+            #printRoot, #printRoot * {
+                visibility: visible !important;
+            }
+            #printRoot {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: white !important;
+            }
+            #printImage {
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: contain !important;
+            }
+            @page {
+                margin: 0;
+                size: auto;
+            }
+        }
+
+        /* Prevent Text Selection & Native App UI Feel */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Allow selection only for typing inside input fields */
+        input[type="number"],
+        input[type="text"],
+        textarea {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;" onselectstart="return false;" class="bg-studio-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col transition-colors duration-200 select-none">
+
+    <!-- Top Universal Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-studio-900/90 dark:bg-studio-950/85 backdrop-blur-xl border-b border-studio-800/80 dark:border-slate-800/80 text-slate-100">
+        <div class="max-w-[1920px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            
+            <!-- Logo & Brand identity -->
+            <div class="flex items-center gap-3.5">
+                <div class="relative group cursor-pointer" id="appLogoBtn">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:shadow-brand-500/50 transition-all duration-300">
+                        <i class="fa-solid fa-camera-retro text-lg group-hover:rotate-12 transition-transform"></i>
+                    </div>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                    </span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5 font-sans">
+                            ProPrint <span class="bg-gradient-to-r from-brand-400 to-purple-400 bg-clip-text text-transparent">Studio Pro</span>
+                        </h1>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">v3.5 Ultra</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium hidden sm:block">Industrial 300 DPI Photo Engine & Sheet Architect</p>
+                </div>
+            </div>
+
+            <!-- Central / Right Architect Contact & Quick Status Badges -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                
+                <!-- Lead Architect Pill Badge (Shaiekh Fielsouf Ansari) -->
+                <button id="architectModalBtn" type="button" class="group flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-studio-800/90 hover:bg-studio-700/80 border border-studio-700/80 hover:border-brand-500/40 text-xs transition-all duration-200 cursor-pointer shadow-sm">
+                    <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-300 text-slate-900 flex items-center justify-center font-bold text-[11px] shadow-sm">
+                        <i class="fa-solid fa-crown text-[10px]"></i>
+                    </div>
+                    <div class="text-left hidden md:block leading-tight">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block font-medium">Chief Architect</span>
+                        <span class="text-xs font-semibold text-slate-200 group-hover:text-brand-300 transition-colors">Shaiekh Fielsouf Ansari</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-[10px] hidden sm:inline-flex items-center gap-1.5">
+                        <i class="fa-brands fa-whatsapp text-emerald-400 text-xs"></i>
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        0311-1855512
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-500 group-hover:translate-x-0.5 transition-transform"></i>
+                </button>
+
+                <!-- 300 DPI Status Pill -->
+                <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-xs font-medium">
+                    <i class="fa-solid fa-certificate text-indigo-400"></i>
+                    <span>300 DPI Calibration Active</span>
+                </div>
+
+                <!-- Keyboard Shortcuts Help Button -->
+                <button id="shortcutsBtn" type="button" aria-label="Keyboard Shortcuts" title="Keyboard Shortcuts" class="p-2.5 rounded-xl bg-studio-800/80 hover:bg-studio-700 text-slate-300 hover:text-white border border-studio-700 transition-colors">
+                    <i class="fa-regular fa-keyboard text-sm"></i>
+                </button>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" type="button" aria-label="Toggle Dark/Light Mode" title="Toggle Theme" class="p-2.5 rounded-xl bg-studio-800/80 hover:bg-studio-700 text-slate-300 hover:text-white border border-studio-700 transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden text-indigo-400"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Application Grid -->
+    <main class="flex-1 max-w-[1920px] mx-auto w-full flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] overflow-hidden">
+        
+        <!-- ============================================================ -->
+        <!-- LEFT SIDEBAR: Comprehensive Studio Controls (Accordion / Tabbed) -->
+        <!-- ============================================================ -->
+        <aside class="w-full lg:w-[440px] xl:w-[480px] shrink-0 bg-studio-900 border-b lg:border-b-0 lg:border-r border-studio-800 flex flex-col lg:h-[calc(100vh-4rem)]">
+            
+            <!-- Sidebar Header / Tabs -->
+            <div class="p-4 border-b border-studio-800 flex items-center justify-between bg-studio-950/40">
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-brand-500"></div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Studio Configuration Hub</span>
+                </div>
+                <button id="resetAllBtn" type="button" class="text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20">
+                    <i class="fa-solid fa-arrow-rotate-left text-[10px]"></i>
+                    <span>Reset All</span>
+                </button>
+            </div>
+
+            <!-- Scrollable Content Area -->
+            <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-5">
+                
+                <!-- STEP 1: High-Res Intake & Image Processing -->
+                <section class="rounded-2xl bg-studio-850 border border-studio-800/90 p-4 space-y-3.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-6 h-6 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center text-xs font-bold font-mono">1</span>
+                            <div>
+                                <h2 class="text-sm font-bold text-white tracking-tight">Source Image & Retouching</h2>
+                                <p class="text-[11px] text-slate-400">Upload or press Ctrl+V from clipboard</p>
+                            </div>
+                        </div>
+
+                        <button id="loadSampleBtn" type="button" class="text-[11px] font-semibold text-brand-400 hover:text-brand-300 hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[10px]"></i>
+                            <span>Sample Photo</span>
+                        </button>
+                    </div>
+
+                    <!-- Interactive Drag-and-Drop Area -->
+                    <div id="dropzone" class="relative group cursor-pointer rounded-xl border-2 border-dashed border-studio-700 hover:border-brand-500 bg-studio-900/60 hover:bg-brand-950/20 p-4 text-center transition-all duration-200">
+                        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                        
+                        <div id="uploadPrompt" class="space-y-2 py-2">
+                            <div class="w-12 h-12 mx-auto rounded-xl bg-studio-800 group-hover:bg-brand-500/20 text-brand-400 flex items-center justify-center transition-all duration-300 group-hover:scale-105 border border-studio-700/80 group-hover:border-brand-500/40">
+                                <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs sm:text-sm font-bold text-slate-200">
+                                    Click, drag photo here, or <span class="text-brand-400 underline">paste (Ctrl+V)</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 mt-0.5">JPEG, PNG, WebP • Studio High-Resolution Supported</p>
+                            </div>
+                        </div>
+
+                        <!-- Active Image Preview Pill -->
+                        <div id="fileInfo" class="hidden flex items-center gap-3 text-left">
+                            <div class="relative w-14 h-14 rounded-lg overflow-hidden border border-studio-700 bg-studio-950 shrink-0 shadow-inner">
+                                <img id="thumbPreview" src="" alt="Thumbnail" class="w-full h-full object-cover">
+                                <div id="thumbFilterOverlay" class="absolute inset-0 pointer-events-none"></div>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p id="fileName" class="text-xs font-bold text-slate-100 truncate">photo.jpg</p>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span id="fileMeta" class="text-[11px] font-mono text-slate-400">1920 × 1080 px</span>
+                                    <span id="qualityBadge" class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                        Ultra-DPI
+                                    </span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Click to replace photo</p>
+                            </div>
+                            <button id="clearPhotoBtn" type="button" title="Remove photo" class="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors z-30">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Image Adjustments / Retouching Panel -->
+                    <div class="pt-2 border-t border-studio-800/80 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-sliders text-brand-400 text-[11px]"></i>
+                                Quick Retouch & Tone Lab
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <button id="autoEnhanceBtn" type="button" title="Auto color & contrast balance" class="px-2 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-semibold text-slate-300 hover:text-white transition-all flex items-center gap-1 border border-studio-700">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Auto Tone
+                                </button>
+                                <button id="bwToggleBtn" type="button" title="Toggle Black & White Mode" class="px-2 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-semibold text-slate-300 hover:text-white transition-all flex items-center gap-1 border border-studio-700">
+                                    <i class="fa-solid fa-circle-half-stroke"></i> B&W
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sliders (Brightness, Contrast, Saturation) -->
+                        <div class="grid grid-cols-3 gap-2.5">
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[10px] text-slate-400">
+                                    <span>Brightness</span>
+                                    <span id="brightVal" class="font-mono text-brand-300">0%</span>
+                                </div>
+                                <input type="range" id="brightRange" min="-50" max="50" value="0" class="w-full">
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[10px] text-slate-400">
+                                    <span>Contrast</span>
+                                    <span id="contrastVal" class="font-mono text-brand-300">0%</span>
+                                </div>
+                                <input type="range" id="contrastRange" min="-50" max="50" value="0" class="w-full">
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-[10px] text-slate-400">
+                                    <span>Vividness</span>
+                                    <span id="saturateVal" class="font-mono text-brand-300">0%</span>
+                                </div>
+                                <input type="range" id="saturateRange" min="-100" max="100" value="0" class="w-full">
+                            </div>
+                        </div>
+
+                        <!-- Transform Controls: Rotate & Flip -->
+                        <div class="flex items-center justify-between gap-1 pt-1">
+                            <span class="text-[11px] text-slate-400 font-medium">Orientation:</span>
+                            <div class="flex items-center gap-1.5">
+                                <button id="rotateCcwBtn" type="button" title="Rotate 90° Counter-Clockwise" class="px-2.5 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-300 text-xs border border-studio-700 transition-all">
+                                    <i class="fa-solid fa-rotate-left"></i> -90°
+                                </button>
+                                <button id="rotateCwBtn" type="button" title="Rotate 90° Clockwise" class="px-2.5 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-300 text-xs border border-studio-700 transition-all">
+                                    <i class="fa-solid fa-rotate-right"></i> +90°
+                                </button>
+                                <button id="flipHBtn" type="button" title="Flip Horizontally (Mirror)" class="px-2.5 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-300 text-xs border border-studio-700 transition-all">
+                                    <i class="fa-solid fa-arrows-left-right"></i> Flip H
+                                </button>
+                                <button id="resetRetouchBtn" type="button" title="Reset image tone" class="px-2.5 py-1.5 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-400 hover:text-white text-xs border border-studio-700 transition-all">
+                                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 2: Target Photo Dimension & Standard Passport Presets -->
+                <section class="rounded-2xl bg-studio-850 border border-studio-800/90 p-4 space-y-3.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-6 h-6 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center text-xs font-bold font-mono">2</span>
+                            <div>
+                                <h2 class="text-sm font-bold text-white tracking-tight">Print Size & Passport Presets</h2>
+                                <p class="text-[11px] text-slate-400">Select standard country visa or custom size</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preset Quick Pills (Standard Passport & Photo Sizes) -->
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Quick Presets</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                            <button type="button" data-preset-w="35" data-preset-h="45" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">🇵🇰 Pak / UK Passport</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">35×45</span>
+                            </button>
+                            <button type="button" data-preset-w="50.8" data-preset-h="50.8" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">🇺🇸 US Visa / 2×2"</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">2×2 in</span>
+                            </button>
+                            <button type="button" data-preset-w="35" data-preset-h="45" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">🇪🇺 Schengen / Canada</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">35×45</span>
+                            </button>
+                            <button type="button" data-preset-w="30" data-preset-h="40" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">🆔 NADRA / CNIC</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">30×40</span>
+                            </button>
+                            <button type="button" data-preset-w="25" data-preset-h="25" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">📬 Stamp / License</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">25×25</span>
+                            </button>
+                            <button type="button" data-preset-w="101.6" data-preset-h="152.4" data-preset-unit="mm" class="preset-pill py-1.5 px-2.5 rounded-xl bg-studio-900 hover:bg-brand-950/60 border border-studio-700/80 hover:border-brand-500/60 text-left transition-all text-xs font-medium flex items-center justify-between group active:scale-95">
+                                <span class="truncate">🖼️ 4R Photo Print</span>
+                                <span class="text-[10px] font-mono text-slate-500 group-hover:text-brand-300">4×6 in</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Unit Selector Buttons -->
+                    <div class="grid grid-cols-4 gap-1 p-1 bg-studio-900 rounded-xl border border-studio-800">
+                        <button type="button" data-unit="mm" class="unit-btn py-1.5 text-xs font-bold rounded-lg transition-all bg-brand-600 text-white shadow-sm">MM</button>
+                        <button type="button" data-unit="cm" class="unit-btn py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white">CM</button>
+                        <button type="button" data-unit="in" class="unit-btn py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white">Inches</button>
+                        <button type="button" data-unit="px" class="unit-btn py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white">Pixels</button>
+                    </div>
+
+                    <!-- Dimension Inputs & Aspect Ratio Lock -->
+                    <div class="flex items-end gap-2.5">
+                        <div class="flex-1 space-y-1">
+                            <label for="imgWidth" class="block text-[11px] font-semibold text-slate-400">Width (<span class="unit-label">mm</span>)</label>
+                            <input type="number" id="imgWidth" step="any" min="0.1" value="35" class="w-full px-3 py-2.5 rounded-xl bg-studio-900 border border-studio-700/80 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm font-bold font-mono text-white transition-all">
+                        </div>
+
+                        <!-- Lock Ratio Toggle -->
+                        <button id="lockRatioBtn" type="button" title="Lock Aspect Ratio" class="mb-0.5 p-2.5 rounded-xl border border-brand-500/50 bg-brand-500/20 text-brand-300 hover:bg-brand-500/30 transition-all active:scale-95">
+                            <i id="lockIcon" class="fa-solid fa-link text-sm"></i>
+                        </button>
+
+                        <div class="flex-1 space-y-1">
+                            <label for="imgHeight" class="block text-[11px] font-semibold text-slate-400">Height (<span class="unit-label">mm</span>)</label>
+                            <input type="number" id="imgHeight" step="any" min="0.1" value="45" class="w-full px-3 py-2.5 rounded-xl bg-studio-900 border border-studio-700/80 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none text-sm font-bold font-mono text-white transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Output Resolution Readout -->
+                    <div class="p-2.5 rounded-xl bg-studio-900/80 border border-studio-800 flex items-center justify-between text-xs">
+                        <span class="text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-bullseye text-brand-400 text-[11px]"></i>
+                            <span>Output Resolution @ 300 DPI:</span>
+                        </span>
+                        <span id="pixelEquivText" class="font-mono font-bold text-brand-300">413 × 531 px</span>
+                    </div>
+                </section>
+
+                <!-- STEP 3: Paper Sheet & Layout Architect -->
+                <section class="rounded-2xl bg-studio-850 border border-studio-800/90 p-4 space-y-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-6 h-6 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center justify-center text-xs font-bold font-mono">3</span>
+                            <div>
+                                <h2 class="text-sm font-bold text-white tracking-tight">Paper Sheet & Arrangement</h2>
+                                <p class="text-[11px] text-slate-400">Sheet size, orientation & auto-fill grid</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Paper Size Selection & Orientation -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div class="sm:col-span-2 space-y-1">
+                            <label for="sheetPreset" class="block text-[11px] font-semibold text-slate-400">Paper Sheet Size</label>
+                            <select id="sheetPreset" class="w-full px-3 py-2.5 rounded-xl bg-studio-900 border border-studio-700/80 focus:border-brand-500 outline-none text-xs sm:text-sm font-semibold text-white">
+                                <option value="A4" selected>A4 (210 × 297 mm)</option>
+                                <option value="A3">A3 (297 × 420 mm)</option>
+                                <option value="Letter">Letter (8.5 × 11 in)</option>
+                                <option value="Legal">Legal (8.5 × 14 in)</option>
+                                <option value="4x6">4×6 Photo Paper (102 × 152 mm)</option>
+                                <option value="5x7">5×7 Photo Paper (127 × 178 mm)</option>
+                                <option value="Custom">Custom Sheet Dimensions...</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="block text-[11px] font-semibold text-slate-400">Orientation</label>
+                            <div class="grid grid-cols-2 gap-1 p-1 bg-studio-900 rounded-xl border border-studio-800 h-[42px]">
+                                <button type="button" data-orient="portrait" class="orient-btn rounded-lg flex items-center justify-center text-xs font-bold bg-brand-600 text-white shadow-sm transition-all" title="Portrait Mode">
+                                    <i class="fa-regular fa-file mr-1"></i> P
+                                </button>
+                                <button type="button" data-orient="landscape" class="orient-btn rounded-lg flex items-center justify-center text-xs font-medium text-slate-400 hover:text-white transition-all" title="Landscape Mode">
+                                    <i class="fa-regular fa-file fa-rotate-90 mr-1"></i> L
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Sheet Input Box (Hidden unless Custom is picked) -->
+                    <div id="customSheetBox" class="hidden p-3 rounded-xl bg-studio-900 border border-studio-700/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-200">Custom Sheet Geometry</span>
+                            <select id="customSheetUnit" class="text-xs bg-studio-800 border border-studio-700 rounded-lg px-2 py-1 outline-none text-brand-300 font-mono">
+                                <option value="mm">mm</option>
+                                <option value="in">in</option>
+                                <option value="cm">cm</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[10px] text-slate-400">Sheet Width</label>
+                                <input type="number" id="customSheetW" value="210" min="1" step="any" class="w-full px-2.5 py-1.5 rounded-lg bg-studio-800 border border-studio-700 text-xs font-mono font-bold text-white">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-slate-400">Sheet Height</label>
+                                <input type="number" id="customSheetH" value="297" min="1" step="any" class="w-full px-2.5 py-1.5 rounded-lg bg-studio-800 border border-studio-700 text-xs font-mono font-bold text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placement Mode Selection -->
+                    <div class="space-y-1.5">
+                        <label class="block text-[11px] font-semibold text-slate-400">Arrangement Mode</label>
+                        <div class="grid grid-cols-3 gap-1.5 p-1 bg-studio-900 rounded-xl border border-studio-800">
+                            <button type="button" data-mode="autofill" class="mode-btn py-2 px-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 bg-brand-600 text-white shadow-sm transition-all">
+                                <i class="fa-solid fa-table-cells"></i> Auto Max
+                            </button>
+                            <button type="button" data-mode="custom_count" class="mode-btn py-2 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                                <i class="fa-solid fa-hashtag"></i> Set Count
+                            </button>
+                            <button type="button" data-mode="single" class="mode-btn py-2 px-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                                <i class="fa-regular fa-square"></i> Single
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Copies Count Selector (Shows when 'Set Count' mode is active) -->
+                    <div id="customCountBox" class="hidden p-3 rounded-xl bg-studio-900 border border-studio-700/80 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-300">Exact Number of Copies:</span>
+                            <span id="copiesCountVal" class="text-xs font-mono font-bold text-brand-400">8 Photos</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="customCountInput" min="1" max="200" value="8" class="w-24 px-3 py-1.5 rounded-lg bg-studio-800 border border-studio-700 text-xs font-mono font-bold text-white">
+                            <div class="flex gap-1 flex-1">
+                                <button type="button" class="quick-count-btn flex-1 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-bold text-slate-300" data-count="4">4</button>
+                                <button type="button" class="quick-count-btn flex-1 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-bold text-slate-300" data-count="8">8</button>
+                                <button type="button" class="quick-count-btn flex-1 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-bold text-slate-300" data-count="12">12</button>
+                                <button type="button" class="quick-count-btn flex-1 py-1 rounded bg-studio-800 hover:bg-studio-700 text-[10px] font-bold text-slate-300" data-count="16">16</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Margins & Spacing Grid Controls -->
+                    <div id="gridSpacingControls" class="grid grid-cols-2 gap-3 pt-1">
+                        <div class="space-y-1">
+                            <label for="pageMargin" class="block text-[11px] font-semibold text-slate-400">Page Margin (mm)</label>
+                            <input type="number" id="pageMargin" value="8" min="0" max="100" step="0.5" class="w-full px-3 py-2 rounded-xl bg-studio-900 border border-studio-700/80 text-xs font-mono font-bold text-white">
+                        </div>
+                        <div class="space-y-1">
+                            <label for="imageGap" class="block text-[11px] font-semibold text-slate-400">Photo Gap (mm)</label>
+                            <input type="number" id="imageGap" value="3" min="0" max="50" step="0.5" class="w-full px-3 py-2 rounded-xl bg-studio-900 border border-studio-700/80 text-xs font-mono font-bold text-white">
+                        </div>
+                    </div>
+
+                    <!-- Professional Cutting & Trimming Guides -->
+                    <div class="pt-2 border-t border-studio-800 space-y-2">
+                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Cutting Guides & Crop Marks</span>
+                        
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                                <input type="checkbox" id="cutBorderCheck" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 bg-studio-900 border-studio-700">
+                                <span class="text-xs text-slate-300">Thin boundary cut line (0.5 pt)</span>
+                            </label>
+
+                            <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                                <input type="checkbox" id="cropMarksCheck" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 bg-studio-900 border-studio-700">
+                                <span class="text-xs text-slate-300">Corner L-shaped crop marks (Press-ready)</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 4: High-Res Master Export & Direct Print -->
+                <section class="rounded-2xl bg-gradient-to-b from-brand-950/40 via-studio-850 to-studio-850 border border-brand-500/30 p-4 space-y-3.5 shadow-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xs font-bold font-mono">4</span>
+                            <div>
+                                <h2 class="text-sm font-bold text-white tracking-tight">Studio Output & Direct Print</h2>
+                                <p class="text-[11px] text-slate-400">Zero-compression 300 DPI Physical Scale</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Primary Action: Direct Physical Print (Ctrl+P) -->
+                    <button id="directPrintBtn" type="button" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2.5 transition-all">
+                        <i class="fa-solid fa-print text-base"></i>
+                        <span>Print Sheet Directly (Exact 100% Scale)</span>
+                    </button>
+
+                    <!-- Secondary Exports: PDF & JPG -->
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button id="downloadPdfBtn" type="button" class="py-2.5 px-3 rounded-xl bg-brand-600 hover:bg-brand-500 active:scale-[0.99] text-white font-bold text-xs shadow-md shadow-brand-600/25 flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-solid fa-file-pdf text-sm"></i>
+                            <span>Save 300 DPI PDF</span>
+                        </button>
+
+                        <button id="downloadJpgBtn" type="button" class="py-2.5 px-3 rounded-xl bg-studio-800 hover:bg-studio-700 active:scale-[0.99] text-white font-bold text-xs border border-studio-700 shadow-md flex items-center justify-center gap-2 transition-all">
+                            <i class="fa-solid fa-file-image text-sm text-indigo-400"></i>
+                            <span>Save Sheet JPG</span>
+                        </button>
+                    </div>
+
+                    <!-- Single Cropped Photo Download (e.g. for Online Portal Visa Submissions) -->
+                    <button id="downloadSinglePhotoBtn" type="button" class="w-full py-2 px-3 rounded-xl bg-studio-900/80 hover:bg-studio-800 text-slate-300 hover:text-white text-xs font-medium border border-studio-800 flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-crop-simple text-[11px] text-brand-400"></i>
+                        <span>Download Single Resized Photo Only (For Online Forms)</span>
+                    </button>
+                </section>
+            </div>
+        </aside>
+
+        <!-- ============================================================ -->
+        <!-- RIGHT MAIN CANVAS WORKSPACE: Interactive 300 DPI Sheet Canvas -->
+        <!-- ============================================================ -->
+        <section class="flex-1 workspace-pattern flex flex-col justify-between p-3 sm:p-6 relative overflow-hidden">
+            
+            <!-- Floating Top Workspace Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 glass-panel px-4 py-2.5 rounded-2xl shadow-lg z-20">
+                
+                <!-- Live Metadata Readout -->
+                <div class="flex items-center flex-wrap gap-2 sm:gap-4 text-xs font-medium">
+                    <div class="flex items-center gap-1.5 text-slate-300">
+                        <i class="fa-regular fa-file-lines text-brand-400"></i>
+                        <span>Paper:</span>
+                        <span id="statusSheetDim" class="font-mono font-bold text-white">210 × 297 mm</span>
+                    </div>
+
+                    <span class="text-studio-700 hidden sm:inline">|</span>
+
+                    <div class="flex items-center gap-1.5 text-slate-300">
+                        <i class="fa-solid fa-id-badge text-emerald-400"></i>
+                        <span>Photo:</span>
+                        <span id="statusImgDim" class="font-mono font-bold text-white">35 × 45 mm</span>
+                    </div>
+
+                    <span class="text-studio-700 hidden sm:inline">|</span>
+
+                    <div class="flex items-center gap-1.5 text-slate-300">
+                        <i class="fa-solid fa-layer-group text-purple-400"></i>
+                        <span id="statusGridCalc" class="font-mono font-semibold text-slate-200">5 cols × 5 rows</span>
+                    </div>
+                </div>
+
+                <!-- Zoom & Copies Badges -->
+                <div class="flex items-center gap-2">
+                    <span id="statusCountBadge" class="px-3 py-1 rounded-xl bg-brand-500/20 text-brand-300 border border-brand-500/40 text-xs font-mono font-bold">
+                        25 Copies on Sheet
+                    </span>
+
+                    <!-- Workspace Zoom Controller -->
+                    <div class="flex items-center bg-studio-900/90 border border-studio-700/80 rounded-xl p-0.5">
+                        <button id="zoomOutBtn" type="button" title="Zoom Out" class="p-1.5 px-2 hover:bg-studio-800 rounded-lg text-slate-400 hover:text-white transition-colors">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                        </button>
+                        <span id="zoomLevelText" class="px-2 text-[11px] font-mono font-bold text-slate-300">100%</span>
+                        <button id="zoomInBtn" type="button" title="Zoom In" class="p-1.5 px-2 hover:bg-studio-800 rounded-lg text-slate-400 hover:text-white transition-colors">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
+                        <button id="zoomFitBtn" type="button" title="Fit to Screen" class="p-1.5 px-2 hover:bg-studio-800 rounded-lg text-slate-400 hover:text-white transition-colors border-l border-studio-800">
+                            <i class="fa-solid fa-expand text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Canvas Viewport Area -->
+            <div id="canvasViewport" class="flex-1 flex items-center justify-center my-3 relative overflow-hidden select-none">
+                
+                <!-- Physical Sheet Paper Container with Realistic Studio Drop Shadow -->
+                <div id="sheetWrapper" class="relative transition-transform duration-100 ease-out shadow-sheet-dark bg-white rounded-[2px]">
+                    <canvas id="previewCanvas" class="block max-w-full max-h-full cursor-crosshair"></canvas>
+                    
+                    <!-- Corner Paper Dimension Badges for Professional Aesthetic -->
+                    <div class="absolute -top-6 left-0 text-[10px] font-mono text-slate-400 pointer-events-none">
+                        <span id="sheetWidthTag">210 mm</span>
+                    </div>
+                    <div class="absolute -left-12 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] font-mono text-slate-400 pointer-events-none">
+                        <span id="sheetHeightTag">297 mm</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Floating Tips & Master Signature -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400 z-10">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-studio-900/80 border border-studio-800 text-[11px]">
+                        <i class="fa-solid fa-keyboard text-brand-400"></i>
+                        <span>Tip: Press <kbd class="px-1 py-0.5 bg-studio-800 rounded text-[10px] font-mono text-slate-200">Ctrl+V</kbd> to paste photo, <kbd class="px-1 py-0.5 bg-studio-800 rounded text-[10px] font-mono text-slate-200">Ctrl+P</kbd> to print</span>
+                    </span>
+                </div>
+
+                <!-- Verified Architect Signature -->
+                <div class="flex items-center gap-2">
+                    <span class="text-[11px] text-slate-400">Master Engine Designed by</span>
+                    <a href="javascript:void(0)" onclick="openArchitectModal()" class="text-[11px] font-bold text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1">
+                        <span>Shaiekh Fielsouf Ansari</span>
+                        <i class="fa-solid fa-circle-check text-emerald-400 text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Toast Notification Container -->
+            <div id="toastBox" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300">
+                <div class="bg-studio-900 border border-studio-700 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-sm font-semibold">
+                    <div id="toastIconWrapper" class="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
+                        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <span id="toastMessage">Operation completed successfully!</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- MASTER ARCHITECT MODAL (Shaiekh Fielsouf Ansari) -->
+    <!-- ============================================================ -->
+    <div id="architectModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="relative w-full max-w-lg bg-studio-900 border border-studio-700 rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300 text-center space-y-5" id="architectModalCard">
+            
+            <!-- Close Button -->
+            <button type="button" onclick="closeArchitectModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-studio-800 hover:bg-studio-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+
+            <!-- Crown & Avatar -->
+            <div class="relative w-20 h-20 mx-auto">
+                <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-purple-600 p-1 shadow-glow-indigo flex items-center justify-center">
+                    <div class="w-full h-full bg-studio-950 rounded-[14px] flex items-center justify-center text-3xl text-amber-400">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                </div>
+                <div class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-xs font-bold shadow-md">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+            </div>
+
+            <!-- Credentials -->
+            <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-300 text-xs font-bold uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-shield-halved text-[10px]"></i> Certified Software Engineer & Architect
+                </div>
+                <h3 class="text-2xl font-extrabold text-white">Shaiekh Fielsouf Ansari</h3>
+                <p class="text-sm text-slate-400 mt-1">Creator & Lead Architect of ProPrint Studio Pro</p>
+            </div>
+
+            <!-- Contact & Payment Information Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                
+                <!-- Card 1: WhatsApp & Call (0311-1855512) -->
+                <div class="p-3.5 rounded-2xl bg-studio-850 border border-emerald-500/30 hover:border-emerald-500/60 transition-colors group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase font-bold text-emerald-400 flex items-center gap-1">
+                            <i class="fa-brands fa-whatsapp text-xs"></i> Call & WhatsApp
+                        </span>
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300">Active</span>
+                    </div>
+                    <a href="tel:03111855512" class="text-base font-extrabold font-mono text-white group-hover:text-emerald-300 block mt-1">
+                        0311-1855512
+                    </a>
+                    <div class="flex items-center gap-2 mt-2">
+                        <a href="https://wa.me/923111855512" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/40 text-emerald-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+                            <i class="fa-brands fa-whatsapp"></i> Chat
+                        </a>
+                        <button onclick="copyToClipboard('03111855512', 'WhatsApp & Call number copied!')" class="px-2 py-1 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-300 text-[11px] font-medium flex items-center gap-1 transition-colors">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Voice Call Only (0333-1255512) -->
+                <div class="p-3.5 rounded-2xl bg-studio-850 border border-studio-800 hover:border-brand-500/40 transition-colors group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1">
+                            <i class="fa-solid fa-phone text-xs text-brand-400"></i> Voice Call Only
+                        </span>
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-studio-800 text-slate-400">No WhatsApp</span>
+                    </div>
+                    <a href="tel:03331255512" class="text-base font-extrabold font-mono text-white group-hover:text-brand-300 block mt-1">
+                        0333-1255512
+                    </a>
+                    <div class="flex items-center gap-2 mt-2">
+                        <a href="tel:03331255512" class="px-2 py-1 rounded-lg bg-brand-600/20 hover:bg-brand-600/40 text-brand-300 text-[11px] font-semibold flex items-center gap-1 transition-colors">
+                            <i class="fa-solid fa-phone"></i> Call
+                        </a>
+                        <button onclick="copyToClipboard('03331255512', 'Voice Call number copied!')" class="px-2 py-1 rounded-lg bg-studio-800 hover:bg-studio-700 text-slate-300 text-[11px] font-medium flex items-center gap-1 transition-colors">
+                            <i class="fa-regular fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3: JazzCash Receiving Account (0300-0210419) - Full Width -->
+                <div class="sm:col-span-2 p-3.5 rounded-2xl bg-gradient-to-r from-red-950/40 via-studio-850 to-amber-950/30 border border-red-500/30 hover:border-red-500/60 transition-colors group">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-red-600 text-white flex items-center justify-center text-[11px] font-black shadow-sm">
+                                JC
+                            </span>
+                            <span class="text-xs font-bold text-red-400 uppercase tracking-wide">
+                                JazzCash (Receiving Account Only)
+                            </span>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            Payments Only • No Calls
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between mt-2 pt-1 border-t border-studio-800/80">
+                        <div>
+                            <span class="text-base sm:text-lg font-mono font-black text-amber-300 tracking-wider">
+                                0300-0210419
+                            </span>
+                            <p class="text-[10px] text-slate-400">Shaiekh Fielsouf Ansari</p>
+                        </div>
+                        <button onclick="copyToClipboard('03000210419', 'JazzCash Account 03000210419 copied!')" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition-all active:scale-95">
+                            <i class="fa-regular fa-copy text-xs"></i>
+                            <span>Copy JazzCash</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Direct WhatsApp Chat Action -->
+            <a href="https://wa.me/923111855512" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2.5 transition-all">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Direct WhatsApp Chat (+92 311 1855512)</span>
+            </a>
+
+            <p class="text-xs text-slate-500">
+                Official Studio License • Precision Guaranteed for Professional Print Labs
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- KEYBOARD SHORTCUTS MODAL -->
+    <!-- ============================================================ -->
+    <div id="shortcutsModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="relative w-full max-w-md bg-studio-900 border border-studio-700 rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-studio-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <i class="fa-regular fa-keyboard text-brand-400"></i>
+                    <span>Studio Keyboard Shortcuts</span>
+                </h3>
+                <button type="button" onclick="closeShortcutsModal()" class="w-7 h-7 rounded-full bg-studio-800 hover:bg-studio-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark text-xs"></i>
+                </button>
+            </div>
+
+            <div class="space-y-2.5 text-xs">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-studio-850">
+                    <span class="text-slate-300">Paste Image from Clipboard</span>
+                    <kbd class="px-2 py-1 rounded bg-studio-800 border border-studio-700 font-mono text-brand-300">Ctrl + V</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-studio-850">
+                    <span class="text-slate-300">Direct Physical Print</span>
+                    <kbd class="px-2 py-1 rounded bg-studio-800 border border-studio-700 font-mono text-brand-300">Ctrl + P</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-studio-850">
+                    <span class="text-slate-300">Rotate Image 90°</span>
+                    <kbd class="px-2 py-1 rounded bg-studio-800 border border-studio-700 font-mono text-brand-300">R</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-studio-850">
+                    <span class="text-slate-300">Reset Tone & Retouch</span>
+                    <kbd class="px-2 py-1 rounded bg-studio-800 border border-studio-700 font-mono text-brand-300">Shift + R</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-studio-850">
+                    <span class="text-slate-300">Close Modals / Overlays</span>
+                    <kbd class="px-2 py-1 rounded bg-studio-800 border border-studio-700 font-mono text-brand-300">Escape</kbd>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Container for Direct Browser Printing -->
+    <div id="printRoot" class="hidden">
+        <img id="printImage" src="" alt="Print Output">
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- STUDIO FOOTER: Elegant, Master-Engineered Signature -->
+    <!-- ============================================================ -->
+    <footer class="bg-studio-950 border-t border-studio-800 text-slate-400 py-6 px-4 sm:px-6">
+        <div class="max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-600/20 text-brand-400 border border-brand-500/30 flex items-center justify-center font-bold text-xs">
+                    <i class="fa-solid fa-print"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-slate-200">
+                        ProPrint Studio Pro &bull; Industrial 300 DPI Physical Print Engine
+                    </p>
+                    <p class="text-[11px] text-slate-500 mt-0.5">
+                        Architected & Master-Engineered by <span class="text-brand-300 font-semibold">Shaiekh Fielsouf Ansari</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3.5 text-xs">
+                <!-- Call & WhatsApp -->
+                <a href="https://wa.me/923111855512" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300 transition-colors flex items-center gap-1.5 font-semibold text-emerald-400">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span>0311-1855512 (Call & WhatsApp)</span>
+                </a>
+                <span class="text-studio-700">&bull;</span>
+                <!-- Voice Call Only -->
+                <a href="tel:03331255512" class="hover:text-brand-300 transition-colors flex items-center gap-1.5 text-slate-300">
+                    <i class="fa-solid fa-phone text-xs text-brand-400"></i>
+                    <span>0333-1255512 (Call Only)</span>
+                </a>
+                <span class="text-studio-700">&bull;</span>
+                <!-- JazzCash Receiving Only -->
+                <button onclick="copyToClipboard('03000210419', 'JazzCash Account 03000210419 Copied!')" class="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20">
+                    <span class="w-4 h-4 rounded bg-red-600 text-white flex items-center justify-center text-[9px] font-black">JC</span>
+                    <span>JazzCash: 0300-0210419 (Receiving Only)</span>
+                </button>
+            </div>
+
+            <div class="text-[11px] text-slate-500">
+                &copy; 2026 Shaiekh Fielsouf Ansari. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- CORE SCRIPT: Industrial Precision 300 DPI Print Engine -->
+    <!-- ============================================================ -->
+    <script>
+        /**
+         * ProPrint Studio Pro - Master Print Engine
+         * Designed & Architected by Shaiekh Fielsouf Ansari
+         * WhatsApp & Call: 0311-1855512
+         * Voice Call Only: 0333-1255512
+         * JazzCash (Receiving Only): 0300-0210419
+         */
+        (function() {
+            'use strict';
+
+            // Constants
+            const PRINT_DPI = 300;
+            const MM_PER_INCH = 25.4;
+            const PX_PER_MM = PRINT_DPI / MM_PER_INCH; // ~11.8110236 px per mm
+
+            // Standard Physical Sheet Presets (in millimeters)
+            const SHEET_PRESETS = {
+                'A4':     { w: 210,   h: 297 },
+                'A3':     { w: 297,   h: 420 },
+                'Letter': { w: 215.9, h: 279.4 },
+                'Legal':  { w: 215.9, h: 355.6 },
+                '4x6':    { w: 101.6, h: 152.4 },
+                '5x7':    { w: 127.0, h: 177.8 }
+            };
+
+            // Application State
+            const state = {
+                sourceImage: null,          // HTMLImageElement
+                originalFileName: 'photo.jpg',
+                imgNaturalW: 1200,
+                imgNaturalH: 1500,
+                aspectRatio: 35 / 45,       // width / height
+                lockRatio: true,
+                
+                // Photo Tone / Retouching Adjustments
+                brightness: 0,              // -50 to 50
+                contrast: 0,                // -50 to 50
+                saturation: 0,              // -100 to 100
+                isGrayscale: false,
+                rotationAngle: 0,           // 0, 90, 180, 270
+                flipH: false,
+
+                // Target Size
+                unit: 'mm',                 // 'in', 'cm', 'mm', 'px'
+                targetW: 35,                // in current unit
+                targetH: 45,                // in current unit
+
+                // Sheet Geometry
+                sheetPreset: 'A4',
+                orientation: 'portrait',    // 'portrait' | 'landscape'
+                customSheetW: 210,
+                customSheetH: 297,
+                customSheetUnit: 'mm',
+
+                // Placement & Grid
+                layoutMode: 'autofill',     // 'autofill' | 'custom_count' | 'single'
+                customCopiesCount: 8,
+                marginMm: 8,
+                gapMm: 3,
+
+                // Cutting Guides
+                cutBorder: true,
+                cropMarks: true,
+
+                // Viewport Zoom
+                zoom: 1.0
+            };
+
+            // Cache DOM Elements
+            const els = {
+                themeToggle: document.getElementById('themeToggle'),
+                shortcutsBtn: document.getElementById('shortcutsBtn'),
+                shortcutsModal: document.getElementById('shortcutsModal'),
+                architectModalBtn: document.getElementById('architectModalBtn'),
+                architectModal: document.getElementById('architectModal'),
+                architectModalCard: document.getElementById('architectModalCard'),
+                appLogoBtn: document.getElementById('appLogoBtn'),
+                resetAllBtn: document.getElementById('resetAllBtn'),
+
+                // Image Intake
+                dropzone: document.getElementById('dropzone'),
+                fileInput: document.getElementById('fileInput'),
+                uploadPrompt: document.getElementById('uploadPrompt'),
+                fileInfo: document.getElementById('fileInfo'),
+                thumbPreview: document.getElementById('thumbPreview'),
+                thumbFilterOverlay: document.getElementById('thumbFilterOverlay'),
+                fileName: document.getElementById('fileName'),
+                fileMeta: document.getElementById('fileMeta'),
+                qualityBadge: document.getElementById('qualityBadge'),
+                clearPhotoBtn: document.getElementById('clearPhotoBtn'),
+                loadSampleBtn: document.getElementById('loadSampleBtn'),
+
+                // Retouching
+                autoEnhanceBtn: document.getElementById('autoEnhanceBtn'),
+                bwToggleBtn: document.getElementById('bwToggleBtn'),
+                brightRange: document.getElementById('brightRange'),
+                brightVal: document.getElementById('brightVal'),
+                contrastRange: document.getElementById('contrastRange'),
+                contrastVal: document.getElementById('contrastVal'),
+                saturateRange: document.getElementById('saturateRange'),
+                saturateVal: document.getElementById('saturateVal'),
+                rotateCwBtn: document.getElementById('rotateCwBtn'),
+                rotateCcwBtn: document.getElementById('rotateCcwBtn'),
+                flipHBtn: document.getElementById('flipHBtn'),
+                resetRetouchBtn: document.getElementById('resetRetouchBtn'),
+
+                // Target Dimensions
+                presetPills: document.querySelectorAll('.preset-pill'),
+                unitBtns: document.querySelectorAll('.unit-btn'),
+                unitLabels: document.querySelectorAll('.unit-label'),
+                imgWidth: document.getElementById('imgWidth'),
+                imgHeight: document.getElementById('imgHeight'),
+                lockRatioBtn: document.getElementById('lockRatioBtn'),
+                lockIcon: document.getElementById('lockIcon'),
+                pixelEquivText: document.getElementById('pixelEquivText'),
+
+                // Sheet & Grid
+                sheetPreset: document.getElementById('sheetPreset'),
+                orientBtns: document.querySelectorAll('.orient-btn'),
+                customSheetBox: document.getElementById('customSheetBox'),
+                customSheetUnit: document.getElementById('customSheetUnit'),
+                customSheetW: document.getElementById('customSheetW'),
+                customSheetH: document.getElementById('customSheetH'),
+
+                // Placement Modes
+                modeBtns: document.querySelectorAll('.mode-btn'),
+                customCountBox: document.getElementById('customCountBox'),
+                customCountInput: document.getElementById('customCountInput'),
+                copiesCountVal: document.getElementById('copiesCountVal'),
+                quickCountBtns: document.querySelectorAll('.quick-count-btn'),
+                gridSpacingControls: document.getElementById('gridSpacingControls'),
+                pageMargin: document.getElementById('pageMargin'),
+                imageGap: document.getElementById('imageGap'),
+                cutBorderCheck: document.getElementById('cutBorderCheck'),
+                cropMarksCheck: document.getElementById('cropMarksCheck'),
+
+                // Outputs
+                directPrintBtn: document.getElementById('directPrintBtn'),
+                downloadPdfBtn: document.getElementById('downloadPdfBtn'),
+                downloadJpgBtn: document.getElementById('downloadJpgBtn'),
+                downloadSinglePhotoBtn: document.getElementById('downloadSinglePhotoBtn'),
+                printRoot: document.getElementById('printRoot'),
+                printImage: document.getElementById('printImage'),
+
+                // Workspace Canvas
+                canvasViewport: document.getElementById('canvasViewport'),
+                sheetWrapper: document.getElementById('sheetWrapper'),
+                previewCanvas: document.getElementById('previewCanvas'),
+                statusSheetDim: document.getElementById('statusSheetDim'),
+                statusImgDim: document.getElementById('statusImgDim'),
+                statusGridCalc: document.getElementById('statusGridCalc'),
+                statusCountBadge: document.getElementById('statusCountBadge'),
+                sheetWidthTag: document.getElementById('sheetWidthTag'),
+                sheetHeightTag: document.getElementById('sheetHeightTag'),
+
+                // Zoom Controls
+                zoomInBtn: document.getElementById('zoomInBtn'),
+                zoomOutBtn: document.getElementById('zoomOutBtn'),
+                zoomFitBtn: document.getElementById('zoomFitBtn'),
+                zoomLevelText: document.getElementById('zoomLevelText'),
+
+                // Toast Box
+                toastBox: document.getElementById('toastBox'),
+                toastMessage: document.getElementById('toastMessage'),
+                toastIcon: document.getElementById('toastIcon'),
+                toastIconWrapper: document.getElementById('toastIconWrapper')
+            };
+
+            // ==========================================================
+            // 1. UNIT CONVERSIONS & MATH HELPERS
+            // ==========================================================
+            function toMm(val, unit) {
+                const num = parseFloat(val) || 0;
+                switch (unit) {
+                    case 'mm': return num;
+                    case 'cm': return num * 10;
+                    case 'in': return num * MM_PER_INCH;
+                    case 'px': return num / PX_PER_MM;
+                    default:   return num;
+                }
+            }
+
+            function fromMm(mmVal, unit) {
+                switch (unit) {
+                    case 'mm': return roundTo(mmVal, 2);
+                    case 'cm': return roundTo(mmVal / 10, 2);
+                    case 'in': return roundTo(mmVal / MM_PER_INCH, 3);
+                    case 'px': return Math.round(mmVal * PX_PER_MM);
+                    default:   return roundTo(mmVal, 2);
+                }
+            }
+
+            function roundTo(num, decimals) {
+                const factor = Math.pow(10, decimals);
+                return Math.round(num * factor) / factor;
+            }
+
+            // ==========================================================
+            // 2. HIGH-QUALITY MULTI-STEP RESAMPLING & FILTER ENGINE
+            // ==========================================================
+            /**
+             * Applies CSS / Canvas color filters, rotation and downscales
+             * smoothly to achieve pristine 300 DPI razor-sharp output.
+             */
+            function createProcessedTileCanvas(img, targetPxW, targetPxH) {
+                const finalW = Math.max(1, Math.round(targetPxW));
+                const finalH = Math.max(1, Math.round(targetPxH));
+
+                const canvas = document.createElement('canvas');
+                canvas.width = finalW;
+                canvas.height = finalH;
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+
+                if (!img) {
+                    drawSamplePlaceholder(ctx, finalW, finalH);
+                    return canvas;
+                }
+
+                // 1. First render original image with Filters & Rotations on a master intermediate canvas
+                const filterCanvas = document.createElement('canvas');
+                let rotatedW = img.naturalWidth;
+                let rotatedH = img.naturalHeight;
+
+                if (state.rotationAngle === 90 || state.rotationAngle === 270) {
+                    rotatedW = img.naturalHeight;
+                    rotatedH = img.naturalWidth;
+                }
+
+                filterCanvas.width = rotatedW;
+                filterCanvas.height = rotatedH;
+                const fCtx = filterCanvas.getContext('2d');
+                fCtx.imageSmoothingEnabled = true;
+                fCtx.imageSmoothingQuality = 'high';
+
+                // Construct hardware-accelerated CSS filter string
+                const bVal = 100 + state.brightness; // 50% - 150%
+                const cVal = 100 + state.contrast;   // 50% - 150%
+                let sVal = 100 + state.saturation;   // 0% - 200%
+                if (state.isGrayscale) sVal = 0;
+
+                fCtx.filter = `brightness(${bVal}%) contrast(${cVal}%) saturate(${sVal}%)`;
+
+                // Handle Rotation & Horizontal Mirroring
+                fCtx.save();
+                fCtx.translate(rotatedW / 2, rotatedH / 2);
+                if (state.rotationAngle !== 0) {
+                    fCtx.rotate((state.rotationAngle * Math.PI) / 180);
+                }
+                if (state.flipH) {
+                    fCtx.scale(-1, 1);
+                }
+                fCtx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2, img.naturalWidth, img.naturalHeight);
+                fCtx.restore();
+
+                // 2. High-Quality Progressive Half-Step Resampling
+                let curW = rotatedW;
+                let curH = rotatedH;
+
+                if (curW > finalW * 2 && curH > finalH * 2) {
+                    let stepCanvas = document.createElement('canvas');
+                    let stepCtx = stepCanvas.getContext('2d');
+                    stepCanvas.width = curW;
+                    stepCanvas.height = curH;
+                    stepCtx.drawImage(filterCanvas, 0, 0, curW, curH);
+
+                    while (curW * 0.5 > finalW && curH * 0.5 > finalH) {
+                        const nextW = Math.floor(curW * 0.5);
+                        const nextH = Math.floor(curH * 0.5);
+                        const tempCanvas = document.createElement('canvas');
+                        tempCanvas.width = nextW;
+                        tempCanvas.height = nextH;
+                        const tempCtx = tempCanvas.getContext('2d');
+                        tempCtx.imageSmoothingEnabled = true;
+                        tempCtx.imageSmoothingQuality = 'high';
+                        tempCtx.drawImage(stepCanvas, 0, 0, curW, curH, 0, 0, nextW, nextH);
+
+                        stepCanvas = tempCanvas;
+                        curW = nextW;
+                        curH = nextH;
+                    }
+                    ctx.drawImage(stepCanvas, 0, 0, curW, curH, 0, 0, finalW, finalH);
+                } else {
+                    ctx.drawImage(filterCanvas, 0, 0, finalW, finalH);
+                }
+
+                return canvas;
+            }
+
+            // Draws crisp studio sample avatar if no user photo is loaded
+            function drawSamplePlaceholder(ctx, w, h) {
+                const grad = ctx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#e0e7ff');
+                grad.addColorStop(1, '#c7d2fe');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.fillStyle = '#6366f1';
+                const headR = Math.min(w, h) * 0.17;
+                ctx.beginPath();
+                ctx.arc(w / 2, h * 0.38, headR, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(w / 2, h * 0.88, headR * 2.2, Math.PI, 0);
+                ctx.fill();
+
+                ctx.fillStyle = '#312e81';
+                const fontSize = Math.max(10, Math.round(Math.min(w, h) * 0.08));
+                ctx.font = `700 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.fillText('STUDIO SAMPLE', w / 2, h * 0.94);
+            }
+
+            // ==========================================================
+            // 3. PHYSICAL SHEET GEOMETRY & GRID CALCULATOR
+            // ==========================================================
+            function getSheetDimensionsMm() {
+                let w, h;
+                if (state.sheetPreset === 'Custom') {
+                    w = toMm(state.customSheetW, state.customSheetUnit);
+                    h = toMm(state.customSheetH, state.customSheetUnit);
+                } else {
+                    const preset = SHEET_PRESETS[state.sheetPreset] || SHEET_PRESETS['A4'];
+                    w = preset.w;
+                    h = preset.h;
+                }
+
+                w = Math.max(10, w);
+                h = Math.max(10, h);
+
+                if (state.orientation === 'landscape') {
+                    return { w: Math.max(w, h), h: Math.min(w, h) };
+                } else {
+                    return { w: Math.min(w, h), h: Math.max(w, h) };
+                }
+            }
+
+            function calculateLayout() {
+                const sheet = getSheetDimensionsMm();
+                const imgW = Math.max(1, toMm(state.targetW, state.unit));
+                const imgH = Math.max(1, toMm(state.targetH, state.unit));
+
+                const positions = [];
+                let gridCols = 1;
+                let gridRows = 1;
+
+                if (state.layoutMode === 'single') {
+                    const xMm = (sheet.w - imgW) / 2;
+                    const yMm = (sheet.h - imgH) / 2;
+                    positions.push({ xMm, yMm, wMm: imgW, hMm: imgH });
+                } else {
+                    const margin = Math.max(0, parseFloat(state.marginMm) || 0);
+                    const gap = Math.max(0, parseFloat(state.gapMm) || 0);
+
+                    const usableW = Math.max(0, sheet.w - (margin * 2));
+                    const usableH = Math.max(0, sheet.h - (margin * 2));
+
+                    const maxCols = Math.max(1, Math.floor((usableW + gap) / (imgW + gap)));
+                    const maxRows = Math.max(1, Math.floor((usableH + gap) / (imgH + gap)));
+                    const maxCapacity = maxCols * maxRows;
+
+                    let targetCount = maxCapacity;
+                    if (state.layoutMode === 'custom_count') {
+                        targetCount = Math.min(maxCapacity, Math.max(1, parseInt(state.customCopiesCount) || 1));
+                    }
+
+                    // Compute neatest row/col distribution
+                    gridCols = Math.min(maxCols, targetCount);
+                    gridRows = Math.ceil(targetCount / gridCols);
+
+                    const totalGridW = (gridCols * imgW) + ((gridCols - 1) * gap);
+                    const totalGridH = (gridRows * imgH) + ((gridRows - 1) * gap);
+                    const startX = (sheet.w - totalGridW) / 2;
+                    const startY = (sheet.h - totalGridH) / 2;
+
+                    let placed = 0;
+                    for (let r = 0; r < gridRows && placed < targetCount; r++) {
+                        for (let c = 0; c < gridCols && placed < targetCount; c++) {
+                            positions.push({
+                                xMm: startX + c * (imgW + gap),
+                                yMm: startY + r * (imgH + gap),
+                                wMm: imgW,
+                                hMm: imgH
+                            });
+                            placed++;
+                        }
+                    }
+                }
+
+                return { sheet, imgW, imgH, positions, gridCols, gridRows };
+            }
+
+            // ==========================================================
+            // 4. SHEET RENDERING ENGINE (PREVIEW & 300 DPI EXPORTS)
+            // ==========================================================
+            function renderSheetToCanvas(targetCanvas, dpi) {
+                const layout = calculateLayout();
+                const scale = dpi / MM_PER_INCH;
+
+                const canvasW = Math.max(1, Math.round(layout.sheet.w * scale));
+                const canvasH = Math.max(1, Math.round(layout.sheet.h * scale));
+
+                targetCanvas.width = canvasW;
+                targetCanvas.height = canvasH;
+
+                const ctx = targetCanvas.getContext('2d');
+                
+                // Pure clean white paper background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvasW, canvasH);
+
+                // Margin Boundary Lines (Live preview only, omitted from 300 DPI physical print)
+                if (dpi < 200 && state.layoutMode !== 'single' && state.marginMm > 0) {
+                    const mPx = state.marginMm * scale;
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(99, 102, 241, 0.25)';
+                    ctx.setLineDash([4, 4]);
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(mPx, mPx, canvasW - mPx * 2, canvasH - mPx * 2);
+                    ctx.restore();
+                }
+
+                // Generate single master high-res processed tile
+                const tilePxW = Math.max(1, Math.round(layout.imgW * scale));
+                const tilePxH = Math.max(1, Math.round(layout.imgH * scale));
+                const tileCanvas = createProcessedTileCanvas(state.sourceImage, tilePxW, tilePxH);
+
+                // Stamp each tile onto the physical paper coordinates
+                layout.positions.forEach(pos => {
+                    const x = Math.round(pos.xMm * scale);
+                    const y = Math.round(pos.yMm * scale);
+
+                    ctx.drawImage(tileCanvas, x, y, tilePxW, tilePxH);
+
+                    // 1. Thin Cutting Guide Border
+                    if (state.cutBorder) {
+                        ctx.save();
+                        ctx.strokeStyle = dpi >= 250 ? '#94a3b8' : '#64748b';
+                        ctx.lineWidth = Math.max(1, Math.round(dpi / 300));
+                        ctx.strokeRect(x + 0.5, y + 0.5, tilePxW - 1, tilePxH - 1);
+                        ctx.restore();
+                    }
+
+                    // 2. Corner L-Shaped Crop Marks (Press / Trimming Standard)
+                    if (state.cropMarks) {
+                        ctx.save();
+                        ctx.strokeStyle = '#0f172a';
+                        ctx.lineWidth = Math.max(1, Math.round(dpi / 300));
+                        const markLen = Math.max(5, Math.round(4 * scale)); // 4mm crop marks
+
+                        // Top-Left Corner
+                        ctx.beginPath();
+                        ctx.moveTo(x - markLen, y); ctx.lineTo(x, y);
+                        ctx.moveTo(x, y - markLen); ctx.lineTo(x, y);
+                        ctx.stroke();
+
+                        // Top-Right Corner
+                        ctx.beginPath();
+                        ctx.moveTo(x + tilePxW + markLen, y); ctx.lineTo(x + tilePxW, y);
+                        ctx.moveTo(x + tilePxW, y - markLen); ctx.lineTo(x + tilePxW, y);
+                        ctx.stroke();
+
+                        // Bottom-Left Corner
+                        ctx.beginPath();
+                        ctx.moveTo(x - markLen, y + tilePxH); ctx.lineTo(x, y + tilePxH);
+                        ctx.moveTo(x, y + tilePxH + markLen); ctx.lineTo(x, y + tilePxH);
+                        ctx.stroke();
+
+                        // Bottom-Right Corner
+                        ctx.beginPath();
+                        ctx.moveTo(x + tilePxW + markLen, y + tilePxH); ctx.lineTo(x + tilePxW, y + tilePxH);
+                        ctx.moveTo(x + tilePxW, y + tilePxH + markLen); ctx.lineTo(x + tilePxW, y + tilePxH);
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+                });
+
+                return layout;
+            }
+
+            function updateLivePreview() {
+                const layout = calculateLayout();
+
+                const container = els.canvasViewport;
+                const rect = container.getBoundingClientRect();
+                const maxW = Math.max(220, rect.width - 48);
+                const maxH = Math.max(260, rect.height - 48);
+
+                const sheetRatio = layout.sheet.w / layout.sheet.h;
+                let displayW = maxW;
+                let displayH = displayW / sheetRatio;
+
+                if (displayH > maxH) {
+                    displayH = maxH;
+                    displayW = displayH * sheetRatio;
+                }
+
+                // Apply zoom multiplier
+                displayW = displayW * state.zoom;
+                displayH = displayH * state.zoom;
+
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const previewDpi = ((displayW * dpr) / layout.sheet.w) * MM_PER_INCH;
+
+                renderSheetToCanvas(els.previewCanvas, previewDpi);
+
+                els.previewCanvas.style.width = `${Math.round(displayW)}px`;
+                els.previewCanvas.style.height = `${Math.round(displayH)}px`;
+
+                // Update Workspace Badges & Info Tags
+                const outPxW = Math.round(layout.imgW * PX_PER_MM);
+                const outPxH = Math.round(layout.imgH * PX_PER_MM);
+                els.pixelEquivText.textContent = `${outPxW} × ${outPxH} px`;
+
+                els.statusSheetDim.textContent = `${roundTo(layout.sheet.w, 1)} × ${roundTo(layout.sheet.h, 1)} mm`;
+                els.sheetWidthTag.textContent = `${roundTo(layout.sheet.w, 1)} mm`;
+                els.sheetHeightTag.textContent = `${roundTo(layout.sheet.h, 1)} mm`;
+                els.statusImgDim.textContent = `${state.targetW} × ${state.targetH} ${state.unit}`;
+
+                const totalCopies = layout.positions.length;
+                els.statusCountBadge.textContent = totalCopies === 1 ? '1 Photo on Sheet' : `${totalCopies} Copies on Sheet`;
+                els.copiesCountVal.textContent = `${totalCopies} Photos`;
+
+                if (state.layoutMode === 'single') {
+                    els.statusGridCalc.textContent = 'Single Centered';
+                } else {
+                    els.statusGridCalc.textContent = `${layout.gridCols} cols × ${layout.gridRows} rows`;
+                }
+
+                // Update Thumbnail filter preview overlay
+                const bVal = 100 + state.brightness;
+                const cVal = 100 + state.contrast;
+                let sVal = 100 + state.saturation;
+                if (state.isGrayscale) sVal = 0;
+                els.thumbPreview.style.filter = `brightness(${bVal}%) contrast(${cVal}%) saturate(${sVal}%)`;
+            }
+
+            // ==========================================================
+            // 5. TOAST NOTIFICATIONS & FEEDBACK
+            // ==========================================================
+            function showToast(message, isError = false) {
+                els.toastMessage.textContent = message;
+                if (isError) {
+                    els.toastIconWrapper.className = 'w-7 h-7 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center text-sm';
+                    els.toastIcon.className = 'fa-solid fa-circle-exclamation';
+                } else {
+                    els.toastIconWrapper.className = 'w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm';
+                    els.toastIcon.className = 'fa-solid fa-circle-check';
+                }
+
+                els.toastBox.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+                clearTimeout(window._toastTimer);
+                window._toastTimer = setTimeout(() => {
+                    els.toastBox.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+                }, 3200);
+            }
+
+            window.copyToClipboard = function(text, successMsg = 'Copied to clipboard!') {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => showToast(successMsg));
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast(successMsg);
+                }
+            };
+
+            // Modal Controls
+            window.openArchitectModal = function() {
+                els.architectModal.classList.remove('opacity-0', 'pointer-events-none');
+                els.architectModalCard.classList.remove('scale-95');
+                els.architectModalCard.classList.add('scale-100');
+            };
+
+            window.closeArchitectModal = function() {
+                els.architectModal.classList.add('opacity-0', 'pointer-events-none');
+                els.architectModalCard.classList.remove('scale-100');
+                els.architectModalCard.classList.add('scale-95');
+            };
+
+            window.openShortcutsModal = function() {
+                els.shortcutsModal.classList.remove('opacity-0', 'pointer-events-none');
+            };
+
+            window.closeShortcutsModal = function() {
+                els.shortcutsModal.classList.add('opacity-0', 'pointer-events-none');
+            };
+
+            els.architectModalBtn.addEventListener('click', openArchitectModal);
+            els.appLogoBtn.addEventListener('click', openArchitectModal);
+            els.shortcutsBtn.addEventListener('click', openShortcutsModal);
+
+            [els.architectModal, els.shortcutsModal].forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeArchitectModal();
+                        closeShortcutsModal();
+                    }
+                });
+            });
+
+            // ==========================================================
+            // 6. EXPORT ENGINES: PRINT, 300 DPI PDF, JPG & SINGLE PHOTO
+            // ==========================================================
+            
+            // DIRECT PRINT (WINDOW.PRINT WITH PHYSICAL SIZING)
+            function executeDirectPrint() {
+                showToast('Preparing 100% true-scale print layout...');
+                setTimeout(() => {
+                    const exportCanvas = document.createElement('canvas');
+                    renderSheetToCanvas(exportCanvas, PRINT_DPI);
+                    
+                    const dataUrl = exportCanvas.toDataURL('image/png');
+                    const printWin = window.open('', '_blank');
+                    if (!printWin) {
+                        showToast('Pop-up blocked. Please allow pop-ups for direct printing.', true);
+                        return;
+                    }
+
+                    const layout = calculateLayout();
+                    const wMm = layout.sheet.w;
+                    const hMm = layout.sheet.h;
+
+                    printWin.document.open();
+                    printWin.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>ProPrint Studio - Print Job</title>
+                            <style>
+                                @page {
+                                    size: ${wMm}mm ${hMm}mm;
+                                    margin: 0;
+                                }
+                                html, body {
+                                    margin: 0;
+                                    padding: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background: #fff;
+                                }
+                                img {
+                                    display: block;
+                                    width: ${wMm}mm;
+                                    height: ${hMm}mm;
+                                    image-rendering: -webkit-optimize-contrast;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <img src="${dataUrl}" onload="window.print();window.close();" />
+                        </body>
+                        </html>
+                    `);
+                    printWin.document.close();
+                    showToast('Print dialog triggered!');
+                }, 60);
+            }
+
+            // HIGH RESOLUTION 300 DPI JPG EXPORT
+            function exportHighResJPG() {
+                try {
+                    showToast('Synthesizing 300 DPI High-Res JPG...');
+                    setTimeout(() => {
+                        const exportCanvas = document.createElement('canvas');
+                        renderSheetToCanvas(exportCanvas, PRINT_DPI);
+
+                        exportCanvas.toBlob((blob) => {
+                            if (!blob) {
+                                showToast('Failed to render JPG.', true);
+                                return;
+                            }
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `ProPrint_${state.sheetPreset}_300DPI_${Date.now()}.jpg`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+                            showToast('300 DPI JPG downloaded successfully!');
+                        }, 'image/jpeg', 0.98);
+                    }, 50);
+                } catch (err) {
+                    console.error(err);
+                    showToast('JPG Export Error.', true);
+                }
+            }
+
+            // EXACT PHYSICAL DIMENSION 300 DPI PDF EXPORT VIA JSPDF
+            function exportHighResPDF() {
+                try {
+                    if (!window.jspdf || !window.jspdf.jsPDF) {
+                        showToast('PDF library initializing, please re-try in a second...', true);
+                        return;
+                    }
+                    showToast('Building 300 DPI Vector-Scale PDF...');
+                    setTimeout(() => {
+                        const { jsPDF } = window.jspdf;
+                        const exportCanvas = document.createElement('canvas');
+                        const layout = renderSheetToCanvas(exportCanvas, PRINT_DPI);
+
+                        const sheetW = layout.sheet.w;
+                        const sheetH = layout.sheet.h;
+                        const orient = sheetW > sheetH ? 'landscape' : 'portrait';
+
+                        const doc = new jsPDF({
+                            orientation: orient,
+                            unit: 'mm',
+                            format: [sheetW, sheetH],
+                            compress: true
+                        });
+
+                        const imgData = exportCanvas.toDataURL('image/jpeg', 0.96);
+                        doc.addImage(imgData, 'JPEG', 0, 0, sheetW, sheetH, undefined, 'FAST');
+                        doc.save(`ProPrint_${state.sheetPreset}_300DPI_${Date.now()}.pdf`);
+
+                        showToast('300 DPI Print-Ready PDF downloaded!');
+                    }, 60);
+                } catch (err) {
+                    console.error(err);
+                    showToast('Failed to generate PDF.', true);
+                }
+            }
+
+            // SINGLE RESIZED PHOTO EXPORT (IDEAL FOR VISA / ONLINE APPLICATIONS)
+            function exportSingleResizedPhoto() {
+                try {
+                    showToast('Exporting single 300 DPI photo...');
+                    setTimeout(() => {
+                        const targetW_mm = toMm(state.targetW, state.unit);
+                        const targetH_mm = toMm(state.targetH, state.unit);
+                        const pxW = Math.round(targetW_mm * PX_PER_MM);
+                        const pxH = Math.round(targetH_mm * PX_PER_MM);
+
+                        const tileCanvas = createProcessedTileCanvas(state.sourceImage, pxW, pxH);
+                        tileCanvas.toBlob((blob) => {
+                            if (!blob) return;
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.download = `ProPrint_Single_${state.targetW}x${state.targetH}${state.unit}_300DPI.jpg`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+                            showToast('Single cropped 300 DPI photo saved!');
+                        }, 'image/jpeg', 1.0);
+                    }, 50);
+                } catch (err) {
+                    console.error(err);
+                    showToast('Export failed.', true);
+                }
+            }
+
+            // ==========================================================
+            // 7. IMAGE INGESTION (UPLOAD, DRAG-DROP, CLIPBOARD PASTE)
+            // ==========================================================
+            function handleImageFile(file) {
+                if (!file || !file.type.startsWith('image/')) {
+                    showToast('Please provide a valid image file (JPG, PNG, WebP).', true);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        state.sourceImage = img;
+                        state.originalFileName = file.name || 'pasted_photo.png';
+                        state.imgNaturalW = img.naturalWidth;
+                        state.imgNaturalH = img.naturalHeight;
+                        state.aspectRatio = img.naturalWidth / img.naturalHeight;
+
+                        // Calculate DPI Quality Rating
+                        const currentWMm = toMm(state.targetW, state.unit);
+                        const effectiveDpi = Math.round((img.naturalWidth / currentWMm) * MM_PER_INCH);
+
+                        // Update UI
+                        els.uploadPrompt.classList.add('hidden');
+                        els.fileInfo.classList.remove('hidden');
+                        els.thumbPreview.src = e.target.result;
+                        els.fileName.textContent = state.originalFileName;
+                        els.fileMeta.textContent = `${img.naturalWidth} × ${img.naturalHeight} px`;
+
+                        if (effectiveDpi >= 280) {
+                            els.qualityBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+                            els.qualityBadge.textContent = `Ultra-DPI (${effectiveDpi}+)`;
+                        } else if (effectiveDpi >= 180) {
+                            els.qualityBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30';
+                            els.qualityBadge.textContent = `Good (${effectiveDpi} DPI)`;
+                        } else {
+                            els.qualityBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30';
+                            els.qualityBadge.textContent = `Low (${effectiveDpi} DPI)`;
+                        }
+
+                        // Maintain aspect ratio if lock is engaged
+                        if (state.lockRatio) {
+                            const newH = roundTo(state.targetW / state.aspectRatio, state.unit === 'px' ? 0 : 2);
+                            state.targetH = newH;
+                            els.imgHeight.value = newH;
+                        }
+
+                        updateLivePreview();
+                        showToast('High-Res photo ingested at 300 DPI precision!');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // File picker input
+            els.fileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    handleImageFile(e.target.files[0]);
+                }
+            });
+
+            // Drag and Drop
+            ['dragenter', 'dragover'].forEach(evt => {
+                els.dropzone.addEventListener(evt, (e) => {
+                    e.preventDefault();
+                    els.dropzone.classList.add('border-brand-500', 'bg-brand-950/30');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach(evt => {
+                els.dropzone.addEventListener(evt, (e) => {
+                    e.preventDefault();
+                    els.dropzone.classList.remove('border-brand-500', 'bg-brand-950/30');
+                });
+            });
+
+            els.dropzone.addEventListener('drop', (e) => {
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    handleImageFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // Clipboard Paste Support (Ctrl+V)
+            window.addEventListener('paste', (e) => {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        const blob = items[i].getAsFile();
+                        handleImageFile(blob);
+                        showToast('Image pasted from clipboard!');
+                        break;
+                    }
+                }
+            });
+
+            // Clear photo button
+            els.clearPhotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                state.sourceImage = null;
+                els.uploadPrompt.classList.remove('hidden');
+                els.fileInfo.classList.add('hidden');
+                els.fileInput.value = '';
+                updateLivePreview();
+                showToast('Photo cleared. Ready for new image.');
+            });
+
+            // Load high-res sample photo
+            els.loadSampleBtn.addEventListener('click', () => {
+                const sampleCanvas = document.createElement('canvas');
+                sampleCanvas.width = 1200;
+                sampleCanvas.height = 1500;
+                const sCtx = sampleCanvas.getContext('2d');
+                drawSamplePlaceholder(sCtx, 1200, 1500);
+
+                sampleCanvas.toBlob((blob) => {
+                    const sampleFile = new File([blob], 'sample_passport_photo.png', { type: 'image/png' });
+                    handleImageFile(sampleFile);
+                });
+            });
+
+            // ==========================================================
+            // 8. IMAGE RETOUCHING / TONE CONTROLS
+            // ==========================================================
+            els.brightRange.addEventListener('input', () => {
+                state.brightness = parseInt(els.brightRange.value);
+                els.brightVal.textContent = (state.brightness > 0 ? `+${state.brightness}` : state.brightness) + '%';
+                updateLivePreview();
+            });
+
+            els.contrastRange.addEventListener('input', () => {
+                state.contrast = parseInt(els.contrastRange.value);
+                els.contrastVal.textContent = (state.contrast > 0 ? `+${state.contrast}` : state.contrast) + '%';
+                updateLivePreview();
+            });
+
+            els.saturateRange.addEventListener('input', () => {
+                state.saturation = parseInt(els.saturateRange.value);
+                els.saturateVal.textContent = (state.saturation > 0 ? `+${state.saturation}` : state.saturation) + '%';
+                if (state.saturation !== -100 && state.isGrayscale) {
+                    state.isGrayscale = false;
+                    els.bwToggleBtn.classList.remove('bg-brand-600', 'text-white');
+                }
+                updateLivePreview();
+            });
+
+            els.bwToggleBtn.addEventListener('click', () => {
+                state.isGrayscale = !state.isGrayscale;
+                if (state.isGrayscale) {
+                    els.bwToggleBtn.classList.add('bg-brand-600', 'text-white');
+                    showToast('Grayscale / B&W mode enabled');
+                } else {
+                    els.bwToggleBtn.classList.remove('bg-brand-600', 'text-white');
+                    showToast('Color mode restored');
+                }
+                updateLivePreview();
+            });
+
+            els.autoEnhanceBtn.addEventListener('click', () => {
+                state.brightness = 4;
+                state.contrast = 8;
+                state.saturation = 6;
+                state.isGrayscale = false;
+
+                els.brightRange.value = 4;
+                els.brightVal.textContent = '+4%';
+                els.contrastRange.value = 8;
+                els.contrastVal.textContent = '+8%';
+                els.saturateRange.value = 6;
+                els.saturateVal.textContent = '+6%';
+                els.bwToggleBtn.classList.remove('bg-brand-600', 'text-white');
+
+                updateLivePreview();
+                showToast('Auto studio tone balance applied!');
+            });
+
+            els.rotateCwBtn.addEventListener('click', () => {
+                state.rotationAngle = (state.rotationAngle + 90) % 360;
+                updateLivePreview();
+            });
+
+            els.rotateCcwBtn.addEventListener('click', () => {
+                state.rotationAngle = (state.rotationAngle - 90 + 360) % 360;
+                updateLivePreview();
+            });
+
+            els.flipHBtn.addEventListener('click', () => {
+                state.flipH = !state.flipH;
+                showToast(state.flipH ? 'Mirrored horizontally' : 'Mirror reset');
+                updateLivePreview();
+            });
+
+            els.resetRetouchBtn.addEventListener('click', () => {
+                state.brightness = 0;
+                state.contrast = 0;
+                state.saturation = 0;
+                state.isGrayscale = false;
+                state.rotationAngle = 0;
+                state.flipH = false;
+
+                els.brightRange.value = 0;
+                els.brightVal.textContent = '0%';
+                els.contrastRange.value = 0;
+                els.contrastVal.textContent = '0%';
+                els.saturateRange.value = 0;
+                els.saturateVal.textContent = '0%';
+                els.bwToggleBtn.classList.remove('bg-brand-600', 'text-white');
+
+                updateLivePreview();
+                showToast('Tone & Retouch reset.');
+            });
+
+            // ==========================================================
+            // 9. SIZE PRESETS & DIMENSION CONTROLS
+            // ==========================================================
+            els.presetPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const pw = parseFloat(pill.dataset.presetW);
+                    const ph = parseFloat(pill.dataset.presetH);
+                    const punit = pill.dataset.presetUnit;
+
+                    // Switch unit to preset unit
+                    if (state.unit !== punit) {
+                        const targetUnitBtn = document.querySelector(`.unit-btn[data-unit="${punit}"]`);
+                        if (targetUnitBtn) targetUnitBtn.click();
+                    }
+
+                    state.targetW = pw;
+                    state.targetH = ph;
+                    state.aspectRatio = pw / ph;
+                    els.imgWidth.value = pw;
+                    els.imgHeight.value = ph;
+
+                    els.presetPills.forEach(p => p.classList.remove('border-brand-500', 'bg-brand-950/80', 'text-brand-300'));
+                    pill.classList.add('border-brand-500', 'bg-brand-950/80', 'text-brand-300');
+
+                    updateLivePreview();
+                    showToast(`Preset: ${pw}×${ph} ${punit} applied!`);
+                });
+            });
+
+            // Unit Switcher (mm, cm, in, px)
+            els.unitBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newUnit = btn.dataset.unit;
+                    if (newUnit === state.unit) return;
+
+                    const currentWMm = toMm(state.targetW, state.unit);
+                    const currentHMm = toMm(state.targetH, state.unit);
+
+                    state.unit = newUnit;
+                    state.targetW = fromMm(currentWMm, newUnit);
+                    state.targetH = fromMm(currentHMm, newUnit);
+
+                    els.imgWidth.value = state.targetW;
+                    els.imgHeight.value = state.targetH;
+
+                    els.unitBtns.forEach(b => {
+                        b.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+                        b.classList.add('text-slate-400');
+                    });
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-slate-400');
+
+                    els.unitLabels.forEach(lbl => lbl.textContent = newUnit);
+                    updateLivePreview();
+                });
+            });
+
+            // Width / Height inputs
+            els.imgWidth.addEventListener('input', () => {
+                const val = parseFloat(els.imgWidth.value);
+                if (!val || val <= 0) return;
+                state.targetW = val;
+
+                if (state.lockRatio) {
+                    const decimals = state.unit === 'px' ? 0 : 2;
+                    state.targetH = roundTo(val / state.aspectRatio, decimals);
+                    els.imgHeight.value = state.targetH;
+                } else {
+                    state.aspectRatio = state.targetW / state.targetH;
+                }
+                updateLivePreview();
+            });
+
+            els.imgHeight.addEventListener('input', () => {
+                const val = parseFloat(els.imgHeight.value);
+                if (!val || val <= 0) return;
+                state.targetH = val;
+
+                if (state.lockRatio) {
+                    const decimals = state.unit === 'px' ? 0 : 2;
+                    state.targetW = roundTo(val * state.aspectRatio, decimals);
+                    els.imgWidth.value = state.targetW;
+                } else {
+                    state.aspectRatio = state.targetW / state.targetH;
+                }
+                updateLivePreview();
+            });
+
+            // Aspect ratio lock toggle
+            els.lockRatioBtn.addEventListener('click', () => {
+                state.lockRatio = !state.lockRatio;
+                if (state.lockRatio) {
+                    state.aspectRatio = state.targetW / state.targetH;
+                    els.lockIcon.className = 'fa-solid fa-link text-sm';
+                    els.lockRatioBtn.classList.add('border-brand-500/50', 'bg-brand-500/20', 'text-brand-300');
+                    els.lockRatioBtn.classList.remove('border-studio-700', 'bg-studio-800', 'text-slate-400');
+                    showToast('Aspect ratio locked');
+                } else {
+                    els.lockIcon.className = 'fa-solid fa-link-slash text-sm';
+                    els.lockRatioBtn.classList.remove('border-brand-500/50', 'bg-brand-500/20', 'text-brand-300');
+                    els.lockRatioBtn.classList.add('border-studio-700', 'bg-studio-800', 'text-slate-400');
+                    showToast('Aspect ratio unlocked');
+                }
+            });
+
+            // ==========================================================
+            // 10. SHEET GEOMETRY & PLACEMENT CONFIGURATION
+            // ==========================================================
+            els.sheetPreset.addEventListener('change', () => {
+                state.sheetPreset = els.sheetPreset.value;
+                if (state.sheetPreset === 'Custom') {
+                    els.customSheetBox.classList.remove('hidden');
+                } else {
+                    els.customSheetBox.classList.add('hidden');
+                }
+                updateLivePreview();
+            });
+
+            [els.customSheetW, els.customSheetH, els.customSheetUnit].forEach(el => {
+                el.addEventListener('input', () => {
+                    state.customSheetW = parseFloat(els.customSheetW.value) || 210;
+                    state.customSheetH = parseFloat(els.customSheetH.value) || 297;
+                    state.customSheetUnit = els.customSheetUnit.value;
+                    updateLivePreview();
+                });
+            });
+
+            els.orientBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.orientation = btn.dataset.orient;
+                    els.orientBtns.forEach(b => {
+                        b.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+                        b.classList.add('text-slate-400');
+                    });
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-slate-400');
+                    updateLivePreview();
+                });
+            });
+
+            // Arrangement mode toggles
+            els.modeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.layoutMode = btn.dataset.mode;
+                    els.modeBtns.forEach(b => {
+                        b.classList.remove('bg-brand-600', 'text-white', 'shadow-sm');
+                        b.classList.add('text-slate-400');
+                    });
+                    btn.classList.add('bg-brand-600', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-slate-400');
+
+                    if (state.layoutMode === 'custom_count') {
+                        els.customCountBox.classList.remove('hidden');
+                    } else {
+                        els.customCountBox.classList.add('hidden');
+                    }
+
+                    if (state.layoutMode === 'single') {
+                        els.gridSpacingControls.classList.add('opacity-40', 'pointer-events-none');
+                    } else {
+                        els.gridSpacingControls.classList.remove('opacity-40', 'pointer-events-none');
+                    }
+
+                    updateLivePreview();
+                });
+            });
+
+            els.customCountInput.addEventListener('input', () => {
+                const count = parseInt(els.customCountInput.value) || 1;
+                state.customCopiesCount = Math.max(1, count);
+                updateLivePreview();
+            });
+
+            els.quickCountBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const count = parseInt(btn.dataset.count);
+                    state.customCopiesCount = count;
+                    els.customCountInput.value = count;
+                    updateLivePreview();
+                });
+            });
+
+            els.pageMargin.addEventListener('input', () => {
+                state.marginMm = parseFloat(els.pageMargin.value) || 0;
+                updateLivePreview();
+            });
+
+            els.imageGap.addEventListener('input', () => {
+                state.gapMm = parseFloat(els.imageGap.value) || 0;
+                updateLivePreview();
+            });
+
+            els.cutBorderCheck.addEventListener('change', () => {
+                state.cutBorder = els.cutBorderCheck.checked;
+                updateLivePreview();
+            });
+
+            els.cropMarksCheck.addEventListener('change', () => {
+                state.cropMarks = els.cropMarksCheck.checked;
+                updateLivePreview();
+            });
+
+            // Zoom Controller
+            els.zoomInBtn.addEventListener('click', () => {
+                state.zoom = Math.min(2.5, state.zoom + 0.15);
+                els.zoomLevelText.textContent = `${Math.round(state.zoom * 100)}%`;
+                updateLivePreview();
+            });
+
+            els.zoomOutBtn.addEventListener('click', () => {
+                state.zoom = Math.max(0.4, state.zoom - 0.15);
+                els.zoomLevelText.textContent = `${Math.round(state.zoom * 100)}%`;
+                updateLivePreview();
+            });
+
+            els.zoomFitBtn.addEventListener('click', () => {
+                state.zoom = 1.0;
+                els.zoomLevelText.textContent = '100%';
+                updateLivePreview();
+            });
+
+            // Reset All Controls
+            els.resetAllBtn.addEventListener('click', () => {
+                state.targetW = 35;
+                state.targetH = 45;
+                state.unit = 'mm';
+                state.sheetPreset = 'A4';
+                state.orientation = 'portrait';
+                state.layoutMode = 'autofill';
+                state.marginMm = 8;
+                state.gapMm = 3;
+                state.cutBorder = true;
+                state.cropMarks = true;
+                state.zoom = 1.0;
+                state.brightness = 0;
+                state.contrast = 0;
+                state.saturation = 0;
+                state.isGrayscale = false;
+                state.rotationAngle = 0;
+                state.flipH = false;
+
+                // Sync Inputs
+                els.imgWidth.value = 35;
+                els.imgHeight.value = 45;
+                els.sheetPreset.value = 'A4';
+                els.pageMargin.value = 8;
+                els.imageGap.value = 3;
+                els.cutBorderCheck.checked = true;
+                els.cropMarksCheck.checked = true;
+                els.zoomLevelText.textContent = '100%';
+
+                document.querySelector('.unit-btn[data-unit="mm"]').click();
+                document.querySelector('.orient-btn[data-orient="portrait"]').click();
+                document.querySelector('.mode-btn[data-mode="autofill"]').click();
+
+                els.resetRetouchBtn.click();
+                updateLivePreview();
+                showToast('All parameters restored to studio default!');
+            });
+
+            // Export Listeners
+            els.directPrintBtn.addEventListener('click', executeDirectPrint);
+            els.downloadJpgBtn.addEventListener('click', exportHighResJPG);
+            els.downloadPdfBtn.addEventListener('click', exportHighResPDF);
+            els.downloadSinglePhotoBtn.addEventListener('click', exportSingleResizedPhoto);
+
+            // Theme toggle
+            els.themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                showToast(document.documentElement.classList.contains('dark') ? 'Dark Studio Mode' : 'Light Studio Mode');
+            });
+
+            // Global Keyboard Shortcuts & Copy Protection
+            window.addEventListener('keydown', (e) => {
+                const isFormInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA';
+
+                // Prevent Ctrl+A (Select All) outside inputs
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a' && !isFormInput) {
+                    e.preventDefault();
+                    return;
+                }
+
+                // Prevent Ctrl+C (Copy) of UI text outside inputs
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && !isFormInput) {
+                    e.preventDefault();
+                    return;
+                }
+
+                if (isFormInput || e.target.tagName === 'SELECT') return;
+
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+                    e.preventDefault();
+                    executeDirectPrint();
+                } else if (e.key.toLowerCase() === 'r' && !e.shiftKey) {
+                    state.rotationAngle = (state.rotationAngle + 90) % 360;
+                    updateLivePreview();
+                    showToast(`Rotated ${state.rotationAngle}°`);
+                } else if (e.key === 'Escape') {
+                    closeArchitectModal();
+                    closeShortcutsModal();
+                }
+            });
+
+            // Window Resize handling
+            window.addEventListener('resize', () => {
+                updateLivePreview();
+            });
+
+            // Initial Launch
+            window.addEventListener('load', () => {
+                updateLivePreview();
+            });
+        })();
+    </script>
+</body>
+</html>
